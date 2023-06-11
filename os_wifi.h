@@ -89,6 +89,7 @@ int os_wifi_transmit_udp_packet(os_udp_server_t *udp, uint16_t packet_size, uint
  *
  * @param udp The UDP server to use for receiving.
  * @param packet_size A pointer to the variable to store the received packet size.
+ * @note Whatever value inside of packetsize passed in at first is the max value
  * @param arr The array to store the received packet data.
  * @param timeout_ms The timeout value in milliseconds for receiving the packet.
  *

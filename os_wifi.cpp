@@ -21,10 +21,6 @@ os_udp_server_t *os_wifi_setup_udp_server(int port) {
     return udp_server;
 }
 
-int os_wifi_start_udp_multicast_transmission(os_udp_server_t *udp, char *ip, uint16_t port){
-    
-}
-
 int os_wifi_start_udp_transmission(os_udp_server_t *udp, char *ip, uint16_t port) {
     if(WiFi.status() != WL_CONNECTED){
         return OS_RET_NOT_INITIALIZED;
@@ -34,23 +30,46 @@ int os_wifi_start_udp_transmission(os_udp_server_t *udp, char *ip, uint16_t port
         return OS_RET_INT_ERR;
     }
 
-    return 0;
+    return OS_RET_OK;
 }
 
 int os_wifi_stop_udp_transmission(os_udp_server_t *udp) {
   udp->udp.endPacket();
-  return 0;
+  return OS_RET_OK;
 }
 
 int os_wifi_transmit_udp_packet(os_udp_server_t *udp, uint16_t packet_size, uint8_t *arr) {
   return udp->udp.write(arr, packet_size);
 }
 
-int os_wifi_receive_packet(os_udp_server_t *udp, uint16_t *packet_size, uint8_t *arr, uint32_t timeout_ms) {
+static inline int read_packet(os_udp_server_t *udp, uint16_t *packet_size, uint8_t *arr){
   int packetSize = udp->udp.parsePacket();
   if (packetSize > 0) {
-    *packet_size = packetSize;
-    return udp->udp.read(arr, packetSize);
+    // Max allowed size
+    if(*packet_size > packetSize){
+      *packet_size = packetSize;
+    }
+
+    if(udp->udp.read(arr, packetSize) == 0){
+      return OS_RET_NO_AVAILABLE_DATA;
+    }
   }
-  return 0;
+  return OS_RET_OK;;
+}
+
+int os_wifi_receive_packet(os_udp_server_t *udp, uint16_t *packet_size, uint8_t *arr, uint32_t timeout_ms) {
+  if(timeout_ms == 0){
+    return read_packet(udp, packet_size, arr);
+  }
+  else{
+    uint32_t start_millis = millis();
+    // Timeout handler
+    while(start_millis + timeout_ms > millis()){
+      if(read_packet(udp, packet_size, arr) == OS_RET_OK){
+        return OS_RET_OK;
+      }
+
+      delay(1);
+    }
+  }
 }
