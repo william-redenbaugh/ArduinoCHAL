@@ -1,16 +1,33 @@
-#include "os_wifi.h"
+#include "global_includes.h"
+
+#define DEBUG_WIFI
+
+#ifdef DEBUG_WIFI
+#define wifi_println(e)       println(e)
+#define wifi_print(e)         print(e)
+#define wifi_printf(e, ...)   printf(e)
+#endif
 
 int os_wifi_connect_sta(char *ssid, char *password) {
   WiFi.begin(ssid, password);
-  return WiFi.status();
+
+  while (WiFi.status() != WL_CONNECTED) {
+    print(".");
+    delay(500);
+  }
+  wifi_println("Connected! IP address: ");
+  wifi_print(WiFi.localIP());
+
+  return OS_RET_OK;
 }
 
 int os_wifi_disconnect_sta() {
   WiFi.disconnect();
-  return WiFi.status();
+  return OS_RET_OK;
 }
 
 os_udp_server_t *os_wifi_setup_udp_server(int port) {
+  
   if(WiFi.status() != WL_CONNECTED){
       return NULL;
   }
@@ -21,28 +38,54 @@ os_udp_server_t *os_wifi_setup_udp_server(int port) {
   return udp_server;
 }
 
+int os_wifi_deconstruct_udp_server(os_udp_server_t *udp){
+  if(udp == NULL){
+    return OS_RET_NULL_PTR;
+  }
+
+  delete udp;
+
+  return OS_RET_OK;
+}
+
 int os_wifi_start_udp_transmission(os_udp_server_t *udp, char *ip, uint16_t port) {
-    if(WiFi.status() != WL_CONNECTED){
-        return OS_RET_NOT_INITIALIZED;
-    }
+  if(WiFi.status() != WL_CONNECTED){
+    return OS_RET_NOT_INITIALIZED;
+  }
 
-    if(udp->udp.beginPacket(ip, port) < 0){
-        return OS_RET_INT_ERR;
-    }
+  if(udp == NULL){
+    return OS_RET_NULL_PTR;
+  }
 
-    return OS_RET_OK;
+  if(udp->udp.beginPacket(ip, port) < 0){
+      return OS_RET_INT_ERR;
+  }
+
+  return OS_RET_OK;
 }
 
 int os_wifi_stop_udp_transmission(os_udp_server_t *udp) {
+  if(udp == NULL){
+    return OS_RET_NULL_PTR;
+  }
+
   udp->udp.endPacket();
   return OS_RET_OK;
 }
 
 int os_wifi_transmit_udp_packet(os_udp_server_t *udp, uint16_t packet_size, uint8_t *arr) {
+  if(udp == NULL){
+    return OS_RET_NULL_PTR;
+  }
+
   return udp->udp.write(arr, packet_size);
 }
 
 static inline int read_packet(os_udp_server_t *udp, uint16_t *packet_size, uint8_t *arr){
+  if(udp == NULL){
+    return OS_RET_NULL_PTR;
+  }
+
   int packetSize = udp->udp.parsePacket();
   if (packetSize > 0) {
     // Max allowed size
@@ -58,6 +101,10 @@ static inline int read_packet(os_udp_server_t *udp, uint16_t *packet_size, uint8
 }
 
 int os_wifi_receive_packet(os_udp_server_t *udp, uint16_t *packet_size, uint8_t *arr, uint32_t timeout_ms) {
+  if(udp == NULL){
+    return OS_RET_NULL_PTR;
+  }
+
   if(timeout_ms == 0){
     return read_packet(udp, packet_size, arr);
   }
@@ -77,6 +124,10 @@ int os_wifi_receive_packet(os_udp_server_t *udp, uint16_t *packet_size, uint8_t 
 }
 
 int os_wifi_receive_packet_indefinite(os_udp_server_t *udp, uint16_t *packet_size, uint8_t *arr){
+  if(udp == NULL){
+    return OS_RET_NULL_PTR;
+  }
+
   while(read_packet(udp, packet_size, arr) != OS_RET_OK)
     delay(OS_WIFI_CHECK_PACKET_INTERVAL);
 
