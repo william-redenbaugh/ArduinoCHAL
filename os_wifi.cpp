@@ -11,14 +11,14 @@ int os_wifi_disconnect_sta() {
 }
 
 os_udp_server_t *os_wifi_setup_udp_server(int port) {
-    if(WiFi.status() != WL_CONNECTED){
-        return NULL;
-    }
+  if(WiFi.status() != WL_CONNECTED){
+      return NULL;
+  }
 
-    os_udp_server_t *udp_server =  new os_udp_server_t; 
-    udp_server->udp.begin(port);
+  os_udp_server_t *udp_server =  new os_udp_server_t; 
+  udp_server->udp.begin(port);
 
-    return udp_server;
+  return udp_server;
 }
 
 int os_wifi_start_udp_transmission(os_udp_server_t *udp, char *ip, uint16_t port) {
