@@ -69,7 +69,16 @@ int os_wifi_receive_packet(os_udp_server_t *udp, uint16_t *packet_size, uint8_t 
         return OS_RET_OK;
       }
 
-      delay(1);
+      delay(OS_WIFI_CHECK_PACKET_INTERVAL);
     }
   }
+
+  return OS_RET_NO_AVAILABLE_DATA;
+}
+
+int os_wifi_receive_packet_indefinite(os_udp_server_t *udp, uint16_t *packet_size, uint8_t *arr){
+  while(read_packet(udp, packet_size, arr) != OS_RET_OK)
+    delay(OS_WIFI_CHECK_PACKET_INTERVAL);
+
+  return OS_RET_OK;
 }

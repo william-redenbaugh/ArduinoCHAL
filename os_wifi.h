@@ -8,6 +8,8 @@ typedef struct os_udp_server_t{
     WiFiUDP udp;
 }os_udp_server_t;
 
+#define OS_WIFI_CHECK_PACKET_INTERVAL (20)
+
 /**
  * @brief Connects the device to a Wi-Fi network in station (client) mode.
  * 
@@ -96,4 +98,18 @@ int os_wifi_transmit_udp_packet(os_udp_server_t *udp, uint16_t packet_size, uint
  * @return 0 on success, or a negative error code on failure.
  */
 int os_wifi_receive_packet(os_udp_server_t *udp, uint16_t *packet_size, uint8_t *arr, uint32_t timeout_ms);
+
+/**
+ * @brief Receives a Wi-Fi packet indefinitely.
+ *
+ * This function receives a Wi-Fi packet using the specified UDP server until
+ * a packet is successfully read.
+ *
+ * @param udp The UDP server to receive the packet from.
+ * @param packet_size Pointer to a variable to store the size of the received packet.
+ * @param arr Pointer to an array to store the received packet data.
+ *
+ * @return Returns OS_RET_OK when a packet is successfully received.
+ */
+int os_wifi_receive_packet_indefinite(os_udp_server_t *udp, uint16_t *packet_size, uint8_t *arr);
 #endif
