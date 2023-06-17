@@ -1,4 +1,7 @@
 #include "global_includes.h"
+#include "Arduino.h"
+#include "WiFi.h"
+#include "WiFiUdp.h"
 
 #define DEBUG_WIFI
 
