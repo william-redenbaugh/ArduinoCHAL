@@ -4,8 +4,9 @@
 #include "Arduino.h"
 #include "WiFiUdp.h"
 
-typedef struct os_udp_server_t{
+typedef struct os_udp_server_t
+{
     WiFiUDP udp;
-}os_udp_server_t;
+} os_udp_server_t;
 
 #endif
