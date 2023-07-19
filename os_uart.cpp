@@ -47,7 +47,7 @@ static inline void deinit_which_interface(int fd){
 int os_uart_begin(os_uart_t *uart, int fd, int baud)
 {
     if (uart == NULL)
-        return -1;
+        return OS_RET_NULL_PTR;
 
     uart->fd = fd;
     uart->baud = baud;
@@ -58,7 +58,7 @@ int os_uart_begin(os_uart_t *uart, int fd, int baud)
 int os_uart_end(os_uart_t *uart)
 {
     if (uart == NULL)
-        return -1;
+        return OS_RET_NULL_PTR;
     deinit_which_interface(uart->fd);
     return 0;
 }
@@ -70,10 +70,28 @@ void os_uart_printf(os_uart_t *uart, const char *format, ...){
     os_uart_send(uart, (uint8_t*)data, (size_t)size);
 }
 
+int os_uart_readstring_until(os_uart_t *uart, char terminator, uint8_t *data, size_t size){
+    if (uart == NULL)
+        return OS_RET_NULL_PTR;
+
+    Stream* interface = which_interface(uart->fd);
+    if (interface == NULL)
+        return OS_RET_NULL_PTR;
+
+    
+    size_t len = interface->readBytesUntil(terminator, data, size);
+
+    return (int)len;
+}
+
+int os_uart_readstring(os_uart_t *uart,  uint8_t *data, size_t size){
+    return os_uart_readstring_until(uart, '\n', data, size);
+}
+
 int os_uart_setbus(os_uart_t *uart, uint32_t freq_baud)
 {
     if (uart == NULL)
-        return -1;
+        return OS_RET_NULL_PTR;
 
     init_which_interface(uart->fd, uart->baud);
 
@@ -85,12 +103,12 @@ int os_uart_setbus(os_uart_t *uart, uint32_t freq_baud)
 int os_uart_transfer(os_uart_t *uart, uint8_t *rx, uint8_t *tx, size_t size)
 {
     if (uart == NULL || rx == NULL || tx == NULL || size == 0)
-        return -1;
+        return OS_RET_NULL_PTR;
 
     // Check if the selected Serial interface is available
     Stream* interface = which_interface(uart->fd);
     if (interface == NULL)
-        return -1;
+        return OS_RET_NULL_PTR;
 
     // Clear the receive buffer
     while (interface->available() > 0)
@@ -117,12 +135,12 @@ int os_uart_transfer(os_uart_t *uart, uint8_t *rx, uint8_t *tx, size_t size)
 int os_uart_send(os_uart_t *uart, uint8_t *buf, size_t size)
 {
     if (uart == NULL || buf == NULL || size == 0)
-        return -1;
+        return OS_RET_NULL_PTR;
 
     // Check if the selected Serial interface is available
     Stream* interface = which_interface(uart->fd);
     if (interface == NULL)
-        return -1;
+        return OS_RET_NULL_PTR;
 
     // Send data
     for (size_t i = 0; i < size; i++)
@@ -134,12 +152,12 @@ int os_uart_send(os_uart_t *uart, uint8_t *buf, size_t size)
 int os_uart_receive(os_uart_t *uart, uint8_t *buf, size_t size)
 {
     if (uart == NULL || buf == NULL || size == 0)
-        return -1;
+        return OS_RET_NULL_PTR;
 
     // Check if the selected Serial interface is available
     Stream* interface = which_interface(uart->fd);
     if (interface == NULL)
-        return -1;
+        return OS_RET_NULL_PTR;
 
     // Receive data
     size_t bytesRead = 0;
