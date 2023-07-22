@@ -21,7 +21,7 @@ int os_wifi_connect_sta(char *ssid, char *password)
     delay(500);
   }
   wifi_println("Connected! IP address: ");
-  wifi_print(WiFi.localIP());
+  wifi_println(WiFi.localIP());
 
   return OS_RET_OK;
 }
