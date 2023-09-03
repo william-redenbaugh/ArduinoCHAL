@@ -1,5 +1,6 @@
 #include "global_includes.h"
 #include "Arduino.h"
+#ifdef WIFI_UDP
 #include "WiFi.h"
 #include "WiFiUdp.h"
 
@@ -165,3 +166,5 @@ int os_wifi_receive_packet_indefinite(os_udp_server_t *udp, uint16_t *packet_siz
 
   return OS_RET_OK;
 }
+
+#endif

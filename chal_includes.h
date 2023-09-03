@@ -3,5 +3,5 @@
 
 #include "chal_struct_definitions.h"
 #include "chal_time.h"
-
+#include "os_misc.h"
 #endif
