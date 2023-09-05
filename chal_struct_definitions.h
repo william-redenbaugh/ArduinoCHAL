@@ -12,5 +12,4 @@ typedef struct os_udp_server_t
     WiFiUDP udp;
 } os_udp_server_t;
 #endif
-
 #endif
