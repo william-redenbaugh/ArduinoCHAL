@@ -2,6 +2,7 @@
 #define _CHAL_STRUCT_DEFINITIONS_H
 
 #include "Arduino.h"
+#include "enabled_modules.h"
 #ifdef WIFI_UDP
 
 #include "WiFiUdp.h"
