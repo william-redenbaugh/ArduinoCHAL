@@ -7,7 +7,7 @@
 #define DEBUG_WIFI
 
 #ifdef DEBUG_WIFI
-#define wifi_println(e) println(e)
+#define wifi_println(e...) os_println(e)
 #define wifi_print(e) print(e)
 #define wifi_printf(e, ...) printf(e)
 #endif

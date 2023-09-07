@@ -3,7 +3,7 @@
 #include "Arduino.h"
 // Macro: println(e)
 // Description: Prints the given expression followed by a newline character.
-#define println(e...) Serial.println(e)
+#define os_println(e...) Serial.println(e)
 
 // Macro: print(e)
 // Description: Prints the given expression.
