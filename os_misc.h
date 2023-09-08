@@ -13,6 +13,8 @@
 // Description: Prints the formatted output using the Serial.printf function.
 #define os_printf(e, ...) printf(e)
 
+#define os_random(e) random(e)
+
 /**
  * @brief Assertion definition implemented for arduino
  */
