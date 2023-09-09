@@ -25,7 +25,7 @@ _os_led_strip_t *_neopixel_os_led_strip_init(int bus, int gpio, uint32_t numpixe
         return NULL;
     }
 
-    strip->pixels->setBrightness(20);
+    strip->pixels->setBrightness(30);
     return strip;
 }
 
