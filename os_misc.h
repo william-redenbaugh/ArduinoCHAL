@@ -11,7 +11,7 @@
 
 // Macro: os_printf(e)
 // Description: Prints the formatted output using the Serial.printf function.
-#define os_printf(e, ...) printf(e)
+#define os_printf(e, ...) Serial.printf(e)
 
 #define os_random(e) random(e)
 
