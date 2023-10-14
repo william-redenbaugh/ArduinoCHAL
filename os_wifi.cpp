@@ -12,6 +12,8 @@
 #define wifi_printf(e, ...) printf(e)
 #endif
 
+#ifdef OS_WIFI_ARDUINO
+
 int os_wifi_connect_sta(char *ssid, char *password)
 {
   WiFi.begin(ssid, password);
@@ -167,4 +169,5 @@ int os_wifi_receive_packet_indefinite(os_udp_server_t *udp, uint16_t *packet_siz
   return OS_RET_OK;
 }
 
+#endif
 #endif
