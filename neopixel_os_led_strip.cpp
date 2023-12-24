@@ -63,4 +63,10 @@ int _neopixel_os_led_strip_show(_os_led_strip_t *strip)
     strip->pixels->show();
     return OS_RET_OK;
 }
+
+int _neopixel_led_strip_set_brightness(_os_led_strip_t *strip, uint8_t brightness){
+    strip->pixels->setBrightness(brightness);
+
+    return OS_RET_OK;
+}
 #endif
