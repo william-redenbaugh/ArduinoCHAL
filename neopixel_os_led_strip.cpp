@@ -29,6 +29,18 @@ _os_led_strip_t *_neopixel_os_led_strip_init(int bus, int gpio, uint32_t numpixe
     return strip;
 }
 
+int free_neopixel_strip(_os_led_strip_t *strip){
+    if(strip == NULL){
+        return OS_RET_NULL_PTR;
+    }
+    
+    // Free the neopixel array
+    free(strip->pixels);
+    
+    // Free the strip
+    free(strip);
+}
+
 int _neopixel_os_led_strip_set(_os_led_strip_t *strip, uint32_t pixel, uint8_t r, uint8_t g, uint8_t b)
 {
     if (strip == NULL)
