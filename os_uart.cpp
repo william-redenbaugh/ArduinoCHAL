@@ -11,7 +11,7 @@ static inline Stream *which_interface(int fd)
         return &Serial1;
     case 3:
 #ifdef CONFIG_IDF_TARGET_ESP32S3
-        &Serial2;
+        return &Serial2;
 #endif
     default:
         return NULL;
@@ -24,11 +24,14 @@ static inline void init_which_interface(int fd, int baud)
     {
     case 1:
         Serial.begin(baud);
+        return;
     case 2:
         Serial1.begin(baud);
+        return;
     case 3:
 #ifdef CONFIG_IDF_TARGET_ESP32S3
         Serial2.begin(baud);
+        return;
 #endif
     default:
         return;
@@ -41,11 +44,14 @@ static inline void deinit_which_interface(int fd)
     {
     case 1:
         Serial.end();
+        break;
     case 2:
         Serial1.end();
+        break;
     case 3:
 #ifdef CONFIG_IDF_TARGET_ESP32S3
         Serial2.end();
+        break;
 #endif
     default:
         return;

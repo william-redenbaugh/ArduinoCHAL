@@ -54,7 +54,7 @@ _os_led_strip_t *_spi_dma_os_led_strip_init(int bus, int gpio, uint32_t numpixel
     if (strip->pixels == NULL)
     {
         printf("Couldn't allocate DMA buffer for LED Strip");
-        free((void *)strip);
+        delete strip;
         return NULL;
     }
 

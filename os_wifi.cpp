@@ -7,9 +7,9 @@
 #define DEBUG_WIFI
 
 #ifdef DEBUG_WIFI
-#define wifi_println(e...) os_println(e)
-#define wifi_print(e) print(e)
-#define wifi_printf(e, ...) printf(e)
+#define wifi_println(...) os_println(__VA_ARGS__)
+#define wifi_print(...) print(__VA_ARGS__)
+#define wifi_printf(...) printf(__VA_ARGS__)
 #endif
 
 #ifdef OS_WIFI_ARDUINO
