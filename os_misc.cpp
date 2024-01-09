@@ -2,8 +2,8 @@
 
 void os_println_cmd(const char *fmt, ...)
 {
-    Serial.printf(fmt);
-    Serial.printf("\n");
+    os_printf(fmt);
+    os_printf("\n");
 }
 
 void OS_ASSERT(bool val)

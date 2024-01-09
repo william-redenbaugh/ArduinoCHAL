@@ -10,10 +10,10 @@ void os_println_cmd(const char *fmt, ...);
 // Macro: print(e)
 // Description: Prints the given expression.
 #ifndef print
-#define print(...) Serial.printf(__VA_ARGS__)
+#define print(...) os_printf(__VA_ARGS__)
 #endif
 // Macro: os_printf(e)
-// Description: Prints the formatted output using the Serial.printf function.
+// Description: Prints the formatted output using the os_printf function.
 #define os_printf(...) Serial.printf(__VA_ARGS__)
 
 #define os_random(e) random(e)
