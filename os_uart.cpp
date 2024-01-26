@@ -1,6 +1,8 @@
 #include "global_includes.h"
 #include <Arduino.h>
 
+#ifdef ARDUINO_UART_INTERFACE
+
 static inline Stream *which_interface(int fd)
 {
     switch (fd)
@@ -188,3 +190,5 @@ int os_uart_receive(os_uart_t *uart, uint8_t *buf, size_t size)
 
     return bytesRead;
 }
+
+#endif
