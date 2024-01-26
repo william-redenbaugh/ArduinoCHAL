@@ -9,9 +9,9 @@ void os_println_cmd(const char *fmt, ...);
 
 // Macro: print(e)
 // Description: Prints the given expression.
-#ifndef print
-#define print(...) os_printf(__VA_ARGS__)
-#endif
+//#ifndef print
+//#define print(...) os_printf(__VA_ARGS__)
+//#endif
 // Macro: os_printf(e)
 // Description: Prints the formatted output using the os_printf function.
 #define os_printf(...) Serial.printf(__VA_ARGS__)
