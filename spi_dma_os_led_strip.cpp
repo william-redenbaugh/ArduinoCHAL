@@ -1,8 +1,9 @@
 #include "global_includes.h"
-#include "ESP32DMASPIMaster.h"
 
-#define ARDUINO_SPI_ESP32_STRIP
+//#define ARDUINO_SPI_ESP32_STRIP
+
 #ifdef ARDUINO_SPI_ESP32_STRIP
+#include "ESP32DMASPIMaster.h"
 
 #define BYTES_FOR_LED_BYTE 4
 #define NB_COLORS 3
